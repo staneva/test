@@ -6,24 +6,26 @@ import java.util.List;
 import java.util.Optional;
 
 public class DeveloperReputationCalculator {
-
     private static final int FOLLOWERS_MULTIPLIER = 2;
     private static final int HACKTOBER_BONUS = 10;
 
-    public int calculate(Developer dev) {
-        final int followersScore = Optional.ofNullable(dev.getFollowers())
-                .map(List::size)
-                .map(cnt -> cnt * FOLLOWERS_MULTIPLIER)
-                .orElse(0);
-
-        final ZonedDateTime now = ZonedDateTime.now();
-        final boolean duringHacktober = now.getMonth() == Month.OCTOBER;
-
-        if (duringHacktober) {
+    public int calculate(Developer dev, ZonedDateTime time) {
+        int followersScore = getFollowersScore(dev);
+        if (isDuringHacktober(time)) {
             return followersScore + HACKTOBER_BONUS;
         } else {
             return followersScore;
         }
     }
 
+    public int getFollowersScore(Developer dev) {
+        return Optional.ofNullable(dev.getFollowers())
+                .map(List::size)
+                .map(size -> size * FOLLOWERS_MULTIPLIER)
+                .orElse(0);
+    }
+
+    public boolean isDuringHacktober(ZonedDateTime time) {
+        return time.getMonth() == Month.OCTOBER;
+    }
 }

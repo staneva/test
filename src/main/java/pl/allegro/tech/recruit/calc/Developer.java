@@ -3,13 +3,10 @@ package pl.allegro.tech.recruit.calc;
 import java.util.List;
 
 public class Developer {
-    private String name;
-    private List<Developer> followers;
+    private final String name;
+    private final List<Developer> followers;
 
-    public Developer(
-            String name,
-            List<Developer> followers
-    ) {
+    public Developer(String name, List<Developer> followers) {
         this.name = name;
         this.followers = followers;
     }
